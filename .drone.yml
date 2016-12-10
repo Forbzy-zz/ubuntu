@@ -1,6 +1,6 @@
 pipeline:
 
-  my-build:
+  build:
     privileged: true
     image: ubuntu:latest
     environment:
@@ -31,7 +31,7 @@ image_to_quay:
     branch: master
     event: push
 
-image_to_artifactory:
+publish:
   image: ubuntu:latest
   environment:
     - DOCKER_HOST=tcp://127.0.0.1:2375
