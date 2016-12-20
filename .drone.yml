@@ -1,44 +1,9 @@
-pipeline:
+publish:
+  docker:
+    username: admin
+    password: password
+    repo: foo/bar
+    tag: latest
+    file: Dockerfile
+    insecure: false
 
-  build:
-    privileged: true
-    image: ubuntu:latest
-    environment:
-      - DOCKER_HOST=tcp://127.0.0.1:2375
-    commands:
-      - docker pull ubuntu 
-    when:
-      branch: master
-      event: push
-
-services:
-  dind:
-    image: ubuntu:latest
-    privileged: true
-    command:
-      - "-s"
-      - "overlay"
-
-image_to_docker:
-  image: ubuntu:latest
-  environment:
-    - DOCKER_HOST=tcp://127.0.0.1:2375
-  commands:
-    - docker login -u="${DOCKER_USERNAME}" -p=${DOCKER_PASSWORD} hub.docker.com
-    - docker tag myUbuntu hub.docker.com/forbesj/myUbuntu:${DRONE_COMMIT_SHA}
-    - docker push hub.docker.com/forbesj/ubuntu:${DRONE_COMMIT_SHA}
-  when:
-    branch: master
-    event: push
-
-image_to_artifactory:
-  image: ubuntu:latest
-  environment:
-    - DOCKER_HOST=tcp://127.0.0.1:2375
-  commands:
-    - docker login -u="${DOCKER_ARTIFACTORY_USERNAME}" -p=${DOCKER_ARTIFACTORY_PASSWORD} ${ARTIFACTORY_DNS}:5001
-    - docker tag myUbuntu ${ARTIFACTORY_DNS}:5001/myUbuntu:${DRONE_COMMIT_SHA}
-    - docker push ${ARTIFACTORY_DNS}:5001/myUbuntu:${DRONE_COMMIT_SHA}
-  when:
-    branch: master
-    event: push
