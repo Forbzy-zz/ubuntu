@@ -19,7 +19,7 @@ services:
       - "-s"
       - "overlay"
 
-image_to_quay:
+image_to_docker:
   image: ubuntu:latest
   environment:
     - DOCKER_HOST=tcp://127.0.0.1:2375
