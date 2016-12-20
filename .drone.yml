@@ -31,7 +31,7 @@ image_to_quay:
     branch: master
     event: push
 
-publish:
+image_to_artifactory:
   image: ubuntu:latest
   environment:
     - DOCKER_HOST=tcp://127.0.0.1:2375
